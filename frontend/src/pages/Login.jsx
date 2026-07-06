@@ -53,7 +53,7 @@ const Login = () => {
                 type="text" 
                 required
                 className="w-full px-4 py-3 rounded-lg border border-gray-300 dark:border-gray-600 bg-gray-50 dark:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 transition-all"
-                placeholder="Enter email or phone"
+                placeholder="Email, Phone, or Username"
                 value={identifier}
                 onChange={(e) => setIdentifier(e.target.value)}
               />

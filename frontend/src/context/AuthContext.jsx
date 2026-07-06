@@ -28,10 +28,10 @@ export const AuthProvider = ({ children }) => {
     }
   };
 
-  const register = async (username, email, phone, password) => {
+  const register = async (name, username, email, phone, password) => {
     try {
       const config = { headers: { 'Content-Type': 'application/json' } };
-      const { data } = await axios.post('/api/auth/register', { username, email, phone, password }, config);
+      const { data } = await axios.post('/api/auth/register', { name, username, email, phone, password }, config);
       setUser(data);
       localStorage.setItem('userInfo', JSON.stringify(data));
       return { success: true };
@@ -42,11 +42,19 @@ export const AuthProvider = ({ children }) => {
 
   const logout = () => {
     localStorage.removeItem('userInfo');
+    localStorage.removeItem('activeChat');
+    localStorage.removeItem('activeChatId');
+    localStorage.removeItem('activeChatIsGlobal');
     setUser(null);
   };
 
+  const updateUser = (data) => {
+    setUser(data);
+    localStorage.setItem('userInfo', JSON.stringify(data));
+  };
+
   return (
-    <AuthContext.Provider value={{ user, login, register, logout, loading }}>
+    <AuthContext.Provider value={{ user, login, register, logout, updateUser, loading }}>
       {children}
     </AuthContext.Provider>
   );

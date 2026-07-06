@@ -1,13 +1,24 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import "tailwindcss";
 
-@layer base {
-  body {
-    @apply bg-gray-50 text-gray-900 transition-colors duration-200;
+@custom-variant dark (&:where(.dark, .dark *));
+
+@layer utilities {
+  .custom-scrollbar::-webkit-scrollbar {
+    width: 6px;
   }
-  
-  html.dark body {
-    @apply bg-gray-900 text-gray-100;
+  .custom-scrollbar::-webkit-scrollbar-track {
+    background: transparent;
   }
+  .custom-scrollbar::-webkit-scrollbar-thumb {
+    background-color: rgba(156, 163, 175, 0.5); /* gray-400 with opacity */
+    border-radius: 20px;
+  }
+  .dark .custom-scrollbar::-webkit-scrollbar-thumb {
+    background-color: rgba(75, 85, 99, 0.5); /* gray-600 with opacity */
+  }
+}
+
+/* Animations */
+.animate-spin-slow {
+  animation: spin 3s linear infinite;
 }
