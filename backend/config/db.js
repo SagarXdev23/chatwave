@@ -2,11 +2,18 @@ const mongoose = require('mongoose');
 
 const connectDB = async () => {
     try {
-        const conn = await mongoose.connect(process.env.MONGO_URI);
+        const mongoUri = process.env.MONGO_URI;
+
+        if (!mongoUri) {
+            console.log('MONGO_URI not set. Starting server without MongoDB connection. Add a valid MongoDB URI to enable persistence.');
+            return;
+        }
+
+        const conn = await mongoose.connect(mongoUri);
         console.log(`MongoDB Connected: ${conn.connection.host}`);
     } catch (error) {
-        console.error(`Error: ${error.message}`);
-        process.exit(1);
+        console.error(`MongoDB connection error: ${error.message}`);
+        console.log('Continuing startup without MongoDB. Add a valid MONGO_URI to enable persistence.');
     }
 };
 
