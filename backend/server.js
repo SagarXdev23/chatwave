@@ -16,11 +16,17 @@ connectDB();
 const app = express();
 const server = http.createServer(app);
 
+const allowedOrigins = (process.env.CLIENT_URL || '')
+    .split(',')
+    .map((origin) => origin.trim())
+    .filter(Boolean);
+
 // Socket.io setup
 const io = new Server(server, {
     cors: {
-        origin: '*', // We will restrict this to frontend URL later
-        methods: ['GET', 'POST']
+        origin: allowedOrigins.length ? allowedOrigins : '*',
+        methods: ['GET', 'POST'],
+        credentials: true
     }
 });
 
@@ -44,7 +50,10 @@ app.use('/api', (req, res, next) => {
   next();
 });
 
-app.use(cors());
+app.use(cors({
+    origin: allowedOrigins.length ? allowedOrigins : '*',
+    credentials: true,
+}));
 
 // Serve static files
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
